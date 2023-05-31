@@ -165,6 +165,30 @@ function saveCreateTableQueryToFile(tableName, createTableQuery) {
   });
 }
 
+// Função para salvar o comando SQL de criação de tabela em um arquivo .txt
+function saveCreateTableCommandToFile(tableName, createTableQuery) {
+  const folderPath = path.join(__dirname, 'txt');
+  const filePath = path.join(folderPath, `${tableName}_create_command.txt`);
+  const command = `Crie a entidade NestJs a partir desse comando SQL:\n\n${createTableQuery} \n\n nest g resource ${tableName}`;
+
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath, { recursive: true });
+  }
+
+  fs.writeFile(filePath, command, (err) => {
+    if (err) {
+      console.error(
+        `Erro ao salvar o arquivo ${tableName}_create_command.txt:`,
+        err
+      );
+      return;
+    }
+
+    console.log(`Arquivo ${tableName}_create_command.txt salvo com sucesso!`);
+  });
+}
+
+// Função para executar o comando SHOW CREATE TABLE em todas as tabelas
 // Função para executar o comando SHOW CREATE TABLE em todas as tabelas
 function exportCreateTableQueries() {
   getTableNames()
@@ -173,6 +197,7 @@ function exportCreateTableQueries() {
         return getCreateTableQuery(tableName)
           .then((createTableQuery) => {
             saveCreateTableQueryToFile(tableName, createTableQuery);
+            saveCreateTableCommandToFile(tableName, createTableQuery);
           })
           .catch((error) => {
             console.error(
@@ -185,25 +210,19 @@ function exportCreateTableQueries() {
       Promise.all(getCreateTableQueries)
         .then(() => {
           console.log('Exportação concluída com sucesso!');
-          setTimeout(() => {
-            promptCommand();
-          }, 100); // Atraso de 100ms antes de exibir o menu
+          promptCommand();
         })
         .catch((error) => {
           console.error(
             'Erro ao exportar as queries de criação das tabelas:',
             error
           );
-          setTimeout(() => {
-            promptCommand();
-          }, 100); // Atraso de 100ms antes de exibir o menu
+          promptCommand();
         });
     })
     .catch((error) => {
       console.error('Erro ao obter os nomes das tabelas:', error);
-      setTimeout(() => {
-        promptCommand();
-      }, 100); // Atraso de 100ms antes de exibir o menu
+      promptCommand();
     });
 }
 
