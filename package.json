@@ -1,0 +1,18 @@
+{
+  "name": "db-read",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.1.1",
+    "inquirer": "^8.2.5",
+    "mysql2": "^3.3.3",
+    "nodemon": "^2.0.22",
+    "readline": "^1.3.0"
+  }
+}
