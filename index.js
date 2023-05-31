@@ -189,7 +189,6 @@ function saveCreateTableCommandToFile(tableName, createTableQuery) {
 }
 
 // Função para executar o comando SHOW CREATE TABLE em todas as tabelas
-// Função para executar o comando SHOW CREATE TABLE em todas as tabelas
 function exportCreateTableQueries() {
   getTableNames()
     .then((tableNames) => {
